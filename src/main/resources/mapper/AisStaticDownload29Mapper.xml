@@ -80,29 +80,29 @@
             select 'ais_static_download_29' as tableName,
             #{item} as columnName,
             sum(1) as totalNum,
-            sum(if(imo is null, 1, 0)) as totalNull,
-            sum(if(imo is null, 0, 1)) as totalNotnull
+            sum(if(${item} is null, 1, 0)) as totalNull,
+            sum(if(${item} is null, 0, 1)) as totalNotnull
             from ais_static_download_29
             union all
             select 'ais_static_download_88' as tableName,
             #{item} as columnName,
             sum(1) as totalNum,
-            sum(if(imo is null, 1, 0)) as totalNull,
-            sum(if(imo is null, 0, 1)) as totalNotnull
+            sum(if(${item} is null, 1, 0)) as totalNull,
+            sum(if(${item} is null, 0, 1)) as totalNotnull
             from ais_static_download_88
             union all
             select 'ais_static_download_txt_33' as tableName,
             #{item} as columnName,
             sum(1) as totalNum,
-            sum(if(imo is null, 1, 0)) as totalNull,
-            sum(if(imo is null, 0, 1)) as totalNotnull
+            sum(if(${item} is null, 1, 0)) as totalNull,
+            sum(if(${item} is null, 0, 1)) as totalNotnull
             from ais_static_download_txt_33
             union all
             select 'ais_static_download_txt_92' as tableName,
             #{item} as columnName,
             sum(1) as totalNum,
-            sum(if(imo is null, 1, 0)) as totalNull,
-            sum(if(imo is null, 0, 1)) as totalNotnull
+            sum(if(${item} is null, 1, 0)) as totalNull,
+            sum(if(${item} is null, 0, 1)) as totalNotnull
             from ais_static_download_txt_92
         </foreach>
     </select>
@@ -113,9 +113,9 @@
             <foreach collection="tableNames" item="tableItem" index="index" open="" close="" separator=" union all ">
                 select #{tableItem} as tableName,
                 #{item} as columnName,
-                sum(1) as totalNum,
-                sum(if(imo is null, 1, 0)) as totalNull,
-                sum(if(imo is null, 0, 1)) as totalNotnull
+                count(1) as totalNum,
+                sum(if(${item} is null, 1, 0)) as totalNull,
+                sum(if(${item} is null, 0, 1)) as totalNotnull
                 from ${tableItem}
             </foreach>
         </foreach>

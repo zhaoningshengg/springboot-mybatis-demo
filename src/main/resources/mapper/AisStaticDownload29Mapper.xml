@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.zns.demo.springboot.mybatis.springbootmybatisdemo.mapper.AisStaticDownload29Mapper">
+
+    <resultMap id="BaseResultMap"
+               type="pers.zns.demo.springboot.mybatis.springbootmybatisdemo.domain.AisStaticDownload29">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="mmsi" column="mmsi" jdbcType="INTEGER"/>
+        <result property="imo" column="imo" jdbcType="INTEGER"/>
+        <result property="callsign" column="callSign" jdbcType="VARCHAR"/>
+        <result property="shipname" column="shipName" jdbcType="VARCHAR"/>
+        <result property="shiptype" column="shipType" jdbcType="INTEGER"/>
+        <result property="shiplength" column="shipLength" jdbcType="DOUBLE"/>
+        <result property="shipbreadth" column="shipBreadth" jdbcType="DOUBLE"/>
+        <result property="fixingdevice" column="fixingDevice" jdbcType="INTEGER"/>
+        <result property="eta" column="eta" jdbcType="VARCHAR"/>
+        <result property="draft" column="draft" jdbcType="DOUBLE"/>
+        <result property="destination" column="destination" jdbcType="VARCHAR"/>
+        <result property="devicetype" column="deviceType" jdbcType="VARCHAR"/>
+        <result property="countrycode" column="countryCode" jdbcType="INTEGER"/>
+        <result property="receivetime" column="receiveTime" jdbcType="VARCHAR"/>
+        <result property="sourceid" column="sourceId" jdbcType="INTEGER"/>
+        <result property="tobow" column="toBow" jdbcType="INTEGER"/>
+        <result property="tostern" column="toStern" jdbcType="INTEGER"/>
+        <result property="toport" column="toPort" jdbcType="INTEGER"/>
+        <result property="tostarboard" column="toStarboard" jdbcType="INTEGER"/>
+        <result property="messagetype" column="messageType" jdbcType="INTEGER"/>
+        <result property="basestationid" column="baseStationId" jdbcType="INTEGER"/>
+        <result property="mixshiptype" column="mixShipType" jdbcType="INTEGER"/>
+        <result property="dwt" column="dwt" jdbcType="VARCHAR"/>
+        <result property="gt" column="gt" jdbcType="VARCHAR"/>
+        <result property="originaltype" column="originalType" jdbcType="VARCHAR"/>
+        <result property="shiptypelabel" column="shipTypeLabel" jdbcType="VARCHAR"/>
+        <result property="shiptypeenlabel" column="shipTypeEnLabel" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,mmsi,imo,
+        callSign,shipName,shipType,
+        shipLength,shipBreadth,fixingDevice,
+        eta,draft,destination,
+        deviceType,countryCode,receiveTime,
+        sourceId,toBow,toStern,
+        toPort,toStarboard,messageType,
+        baseStationId,mixShipType,dwt,
+        gt,originalType,shipTypeLabel,
+        shipTypeEnLabel
+    </sql>
+    <select id="testCount" resultType="pers.zns.demo.springboot.mybatis.springbootmybatisdemo.domain.ColumnCounter">
+        select 'ais_static_download_29'   as tableName,
+               sum(1)                     as totalNum,
+               sum(if(imo is null, 1, 0)) as totalNull,
+               sum(if(imo is null, 0, 1)) as totalNotnull
+        from ais_static_download_29
+        union all
+        select 'ais_static_download_88'   as tableName,
+               sum(1)                     as totalNum,
+               sum(if(imo is null, 1, 0)) as totalNull,
+               sum(if(imo is null, 0, 1)) as totalNotnull
+        from ais_static_download_88
+        union all
+        select 'ais_static_download_txt_33' as tableName,
+               sum(1)                       as totalNum,
+               sum(if(imo is null, 1, 0))   as totalNull,
+               sum(if(imo is null, 0, 1))   as totalNotnull
+        from ais_static_download_txt_33
+        union all
+        select 'ais_static_download_txt_92' as tableName,
+               sum(1)                       as totalNum,
+               sum(if(imo is null, 1, 0))   as totalNull,
+               sum(if(imo is null, 0, 1))   as totalNotnull
+        from ais_static_download_txt_92
+    </select>
+    <select id="testCount2"
+            resultType="pers.zns.demo.springboot.mybatis.springbootmybatisdemo.domain.ColumnCounter">
+        <foreach collection="columnNames" item="item" index="index" open="" close="" separator=" union all ">
+            select 'ais_static_download_29' as tableName,
+            #{item} as columnName,
+            sum(1) as totalNum,
+            sum(if(imo is null, 1, 0)) as totalNull,
+            sum(if(imo is null, 0, 1)) as totalNotnull
+            from ais_static_download_29
+            union all
+            select 'ais_static_download_88' as tableName,
+            #{item} as columnName,
+            sum(1) as totalNum,
+            sum(if(imo is null, 1, 0)) as totalNull,
+            sum(if(imo is null, 0, 1)) as totalNotnull
+            from ais_static_download_88
+            union all
+            select 'ais_static_download_txt_33' as tableName,
+            #{item} as columnName,
+            sum(1) as totalNum,
+            sum(if(imo is null, 1, 0)) as totalNull,
+            sum(if(imo is null, 0, 1)) as totalNotnull
+            from ais_static_download_txt_33
+            union all
+            select 'ais_static_download_txt_92' as tableName,
+            #{item} as columnName,
+            sum(1) as totalNum,
+            sum(if(imo is null, 1, 0)) as totalNull,
+            sum(if(imo is null, 0, 1)) as totalNotnull
+            from ais_static_download_txt_92
+        </foreach>
+    </select>
+    <select id="testCount3"
+            resultType="pers.zns.demo.springboot.mybatis.springbootmybatisdemo.domain.ColumnCounter">
+        select * from (
+        <foreach collection="columnNames" item="item" index="index" open="" close="" separator=" union all ">
+            <foreach collection="tableNames" item="tableItem" index="index" open="" close="" separator=" union all ">
+                select #{tableItem} as tableName,
+                #{item} as columnName,
+                sum(1) as totalNum,
+                sum(if(imo is null, 1, 0)) as totalNull,
+                sum(if(imo is null, 0, 1)) as totalNotnull
+                from ${tableItem}
+            </foreach>
+        </foreach>
+        ) a order by tableName,columnName
+    </select>
+</mapper>

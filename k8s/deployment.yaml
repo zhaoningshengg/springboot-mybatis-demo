@@ -1,0 +1,89 @@
+# ------------------- APP_NAME Deployment ------------------- #
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: APP_NAME
+  name: APP_NAME-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: APP_NAME
+  template:
+    metadata:
+      labels:
+        k8s-app: APP_NAME
+    spec:
+      volumes:
+      - name: application-yml
+        configMap:
+          name: APP_NAME
+          optional: false
+#           items:
+#           - key: application
+#             path: application.yml
+#           - key: application-dev
+#             path: application-dev.yml
+      containers:
+      - name: APP_NAME
+        image: HARBOR_URL/HARBOR_NAMESPACE/APP_NAME:APP_VERSION
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: application-yml
+          mountPath: "/etc/dev/"
+          readOnly: true
+        env:
+        - name: TZ
+          value: Asia/Shanghai
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 120
+          timeoutSeconds: 30
+        resources:
+          limits:
+            cpu: 1
+            memory: 1.5Gi
+      imagePullSecrets:
+        - name: docker-registry-ehl
+# ------------------- APP_NAME Service ------------------- #
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    aliyun.logs.stdout: stdout
+  name: APP_NAME-service
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    k8s-app: APP_NAME
+status:
+  loadBalancer: {}
+
+# ------------------- APP_NAME Ingress ------------------- #
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata: 
+ name: APP_NAME
+ annotations:
+   kubernetes.io/ingress.class: nginx
+spec:
+ rules:
+ - host: NAME_SPACE.APP_NAME.service
+   http:
+     paths:
+     - backend:
+         serviceName: APP_NAME-service
+         servicePort: 80
+       path: /

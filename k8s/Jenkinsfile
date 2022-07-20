@@ -1,0 +1,9 @@
+//无锡环境Jenkins
+node('jenkins-jnlp') {
+    //部署到kubernetes
+    stage('Deploy to K8s') {
+        parallel dev:{
+            sh "sh ./k8s/my_deploy.sh ${env.ENV}"
+        }
+    }
+}

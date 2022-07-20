@@ -1,7 +1,7 @@
 package pers.zns.demo.springboot.mybatis.springbootmybatisdemo.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: springboot-mybatis-demo
@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author: zns
  * @create: 2022-05-30 17:04
  */
-@Controller
+@RestController
+@RequestMapping("/test")
 public class HelloController {
 
-    @PostMapping("/hello")
+    @RequestMapping("/hello")
     public String hello() {
         return "helllooooo";
     }

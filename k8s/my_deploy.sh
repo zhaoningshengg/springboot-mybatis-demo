@@ -4,9 +4,13 @@ set -o errexit
 
 # docker image的名称,以及 k8s中各个服务的名称
 export APP_NAME=springboot-mybatis-demo
+# maven打出来的jar包的名称
 export PACKAGED_JAR_NAME=springboot-mybatis-demo-0.0.1-SNAPSHOT.jar
-
+# k8s默认的namespace
+export DEFAULT_NAME_SPACE=dev
+# harbor地址
 export HARBOR_URL=192.168.20.23:81
+# harbor namespace
 export HARBOR_NAMESPACE=econ
 
 export APP_VERSION=$(git rev-parse --short HEAD)
@@ -15,9 +19,9 @@ export APP_VERSION=$(git rev-parse --short HEAD)
 if [ x$1 != x ]; then
   export NAME_SPACE=$1
 else
-  export NAME_SPACE=dev
+  export NAME_SPACE=${DEFAULT_NAME_SPACE}
 fi
-echo "NAME_SPACE is set to $NAME_SPACE"
+echo "K8S_NAME_SPACE is set to $NAME_SPACE"
 
 #第二个参数为激活的springboot配置文件,如果不配置,默认为空,会去读取application.yml文件中的配置
 if [ x$2 != x ]; then

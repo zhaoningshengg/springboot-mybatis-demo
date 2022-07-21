@@ -37,6 +37,8 @@ spec:
         env:
         - name: TZ
           value: Asia/Shanghai
+        - name: SPRING_PROFILES_ACTIVE
+          value: SPRING_PROFILES_ACTIVE_VALUE
         livenessProbe:
           httpGet:
             scheme: HTTP

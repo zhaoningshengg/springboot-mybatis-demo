@@ -7,6 +7,12 @@ else
 export NAME_SPACE=dev
 fi
 
+#第二个参数为激活的springboot配置文件,如果不配置,默认为空,会去读取application.yml文件中的配置
+if [ x$2 != x ]
+then
+export SPRING_PROFILES_ACTIVE=$2
+fi
+
 echo "NAME_SPACE is set to $NAME_SPACE"
 # docker image的名称,以及 k8s中各个服务的名称
 export APP_NAME=springboot-mybatis-demo
@@ -52,9 +58,9 @@ kubectl -n ${NAME_SPACE} create configmap ${APP_NAME} --from-file=${project_dir}
 
 #部署服务
 
-sed "s/NAME_SPACE/${NAME_SPACE}/g;s/APP_NAME/${APP_NAME}/g;s/HARBOR_URL/${HARBOR_URL}/g;s/HARBOR_NAMESPACE/${HARBOR_NAMESPACE}/g;s/APP_VERSION/${APP_VERSION}/g" deployment.yaml > deployment-${NAME_SPACE}.yaml
+sed "s/NAME_SPACE/${NAME_SPACE}/g;s/APP_NAME/${APP_NAME}/g;s/HARBOR_URL/${HARBOR_URL}/g;s/HARBOR_NAMESPACE/${HARBOR_NAMESPACE}/g;s/APP_VERSION/${APP_VERSION}/g;s/SPRING_PROFILES_ACTIVE_VALUE/${SPRING_PROFILES_ACTIVE}/g" deployment.yaml > deployment-${NAME_SPACE}.yaml
 kubectl -n ${NAME_SPACE} delete -f ./deployment-${NAME_SPACE}.yaml --ignore-not-found
 
 kubectl -n ${NAME_SPACE} create -f ./deployment-${NAME_SPACE}.yaml
 
-rm -f deployment-${NAME_SPACE}.yaml;echo "tmp k8s file deleted"
+#rm -f deployment-${NAME_SPACE}.yaml;echo "tmp k8s file deleted"

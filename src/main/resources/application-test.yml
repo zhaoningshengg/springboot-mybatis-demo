@@ -23,4 +23,4 @@ spring:
 
 test:
   conf:
-    value1: dev111
+    value1: test111

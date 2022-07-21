@@ -1,4 +1,7 @@
 pipeline{
+    agent {
+        label 'build1'
+    }
     stages{
     //部署到kubernetes
     stage('Deploy to K8s') {

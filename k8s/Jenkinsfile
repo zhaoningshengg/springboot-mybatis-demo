@@ -2,7 +2,7 @@ pipeline{
     stages{
     //部署到kubernetes
     stage('Deploy to K8s') {
-        parallel dev:{
+         steps{
          if(env.ENV == 'dev')
             {
             sh ./k8s/my_deploy.sh ${env.ENV}
